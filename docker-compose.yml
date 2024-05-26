@@ -1,10 +1,31 @@
 services:
+  user_api:
+    build:
+      context: ./user
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://user_db:5432/user
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      OTEL_SERVICE_NAME: user
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://lgtm:4317
+      OTEL_EXPORTER_OTLP_PROTOCOL: grpc
+      OTEL_RESOURCE_ATTRIBUTES: service.name=user,service.instance.id=user
+      OTEL_LOGS_EXPORTER: "otlp"
+      OTEL_METRIC_EXPORT_INTERVAL: 500
+      OTEL_BSP_SCHEDULE_DELAY: 500
+    ports:
+      - 8080:8080
+    depends_on:
+      - user_db
+      - lgtm
+
   user_db:
     image: 'postgres:13.7'
     environment:
-      - 'POSTGRES_DB=user'
-      - 'POSTGRES_USER=postgres'
-      - 'POSTGRES_PASSWORD=postgres'
+      POSTGRES_DB: user
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
     volumes:
       - ./database/user:/docker-entrypoint-initdb.d/
     ports:
@@ -15,4 +36,11 @@ services:
       interval: 10s
       timeout: 10s
       retries: 60
+  
+  lgtm:
+    image: grafana/otel-lgtm
+    ports:
+      - '4317:4317'
+      - '4318:4318' 
+      - '3000:3000' # dashboard
 
