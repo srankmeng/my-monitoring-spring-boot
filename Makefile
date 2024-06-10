@@ -12,8 +12,9 @@ user_api_docker:
 
 cluster:
 	k3d cluster create my-cluster --servers 1 --agents 2 --port "3000:3000@loadbalancer" --port "8080:8080@loadbalancer"
+	docker build -t my-user:0.0.1 -f ./user/Dockerfile ./user
 	docker build -t my-grafana-lgtm:0.0.1 -f ./grafana/Dockerfile ./grafana
-	k3d image import my-grafana-lgtm:0.0.1 --cluster my-cluster
+	k3d image import my-user:0.0.1 my-grafana-lgtm:0.0.1 --cluster my-cluster
 
 cluster_clear:
 	k3d cluster delete my-cluster

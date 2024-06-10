@@ -72,6 +72,44 @@ this url random 500 error time, you can view in logs dashboard
 
 ---
 
+### Setup Prometheus(node exporters)
+
+Install Helm: <https://helm.sh/docs/intro/install/>
+
+Change directory to `k8s/prometheus`
+
+Add repository
+
+```sh
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+```
+
+Update dependencies
+
+```sh
+helm dependency update
+```
+
+Waiting all pods status are running
+
+```sh
+kubectl get pod
+```
+
+---
+
+### Add Cluster dashboard
+
+Go to Grafana: <http://localhost:3000/>
+
+Add new datasource as `prometheus`
+
+Prometheus server url: `http://prometheus-server`
+
+Then go to create new dashboard
+
+---
+
 Reference
 
 - <https://opentelemetry.io/docs/zero-code/java/agent/>
