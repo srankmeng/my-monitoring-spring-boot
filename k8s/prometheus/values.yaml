@@ -1,0 +1,9 @@
+prometheus:
+  extraScrapeConfigs: |
+    - job_name: 'postgres_exporter'
+      metrics_path: '/metrics'
+      scrape_interval: 3s # This can be adjusted based on our needs
+      static_configs:
+        - targets: ['postgres-exporter-prometheus-postgres-exporter']
+          labels:
+            application: 'postgres'

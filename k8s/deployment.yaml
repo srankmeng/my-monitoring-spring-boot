@@ -19,7 +19,7 @@ spec:
         image: my-user:0.0.1
         env:
         - name: SPRING_DATASOURCE_URL
-          value: jdbc:postgresql://host.k3d.internal:5434/user
+          value: jdbc:postgresql://db-service:5432/user
         - name: SPRING_DATASOURCE_USERNAME
           value: postgres
         - name: SPRING_DATASOURCE_PASSWORD
@@ -75,6 +75,42 @@ spec:
         - containerPort: 3000
         - containerPort: 4317
         - containerPort: 4318
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1024Mi
+          limits:
+            cpu: "1"
+            memory: 2048Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-db
+  template:
+    metadata:
+      labels:
+        app: my-db
+    spec:
+      containers:
+      - name: database
+        image: my-db:0.0.1
+        env:
+        - name: POSTGRES_DB
+          value: user
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        ports:
+        - containerPort: 5432
         resources:
           requests:
             cpu: 500m

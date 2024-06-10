@@ -32,3 +32,16 @@ spec:
       port: 4318
       targetPort: 4318
       name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: db-service
+spec:
+  type: ClusterIP
+  selector:
+    app: my-db
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
