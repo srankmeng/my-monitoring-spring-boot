@@ -90,6 +90,12 @@ Update dependencies
 helm dependency update
 ```
 
+Running prometheus
+
+```sh
+helm upgrade -i prometheus . -n monitoring --create-namespace
+```
+
 Waiting all pods status are running
 
 ```sh
@@ -104,9 +110,9 @@ Go to Grafana: <http://localhost:3000/>
 
 Add new datasource as `prometheus`
 
-Prometheus server url: `http://prometheus-server`
+Prometheus server url: `http://prometheus-server.monitoring.svc.cluster.local`
 
-Then go to create new dashboard
+Then go to create new dashboard, you can add from files in <https://github.com/dotdc/grafana-dashboards-kubernetes/tree/master/dashboards>
 
 ---
 

@@ -15,7 +15,7 @@ spec:
         app: my-user
     spec:
       containers:
-      - name: grafana
+      - name: my-user
         image: my-user:0.0.1
         env:
         - name: SPRING_DATASOURCE_URL
@@ -32,6 +32,10 @@ spec:
           value: grpc
         - name: OTEL_RESOURCE_ATTRIBUTES
           value: service.name=user,service.instance.id=user
+        - name: OTEL_METRICS_EXPORTER
+          value: otlp
+        - name: OTEL_TRACES_EXPORTER
+          value: otlp
         - name: OTEL_LOGS_EXPORTER
           value: otlp
         - name: OTEL_METRIC_EXPORT_INTERVAL
@@ -40,6 +44,13 @@ spec:
           value: '500'
         ports:
         - containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
 ---
 apiVersion: apps/v1
 kind: Deployment
