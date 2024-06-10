@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+  labels:
+    app: user-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-user
+  template:
+    metadata:
+      labels:
+        app: my-user
+    spec:
+      containers:
+      - name: grafana
+        image: my-user:0.0.1
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://host.k3d.internal:5434/user
+        - name: SPRING_DATASOURCE_USERNAME
+          value: postgres
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: postgres
+        - name: OTEL_SERVICE_NAME
+          value: user
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://grafana-service:4317
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: grpc
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: service.name=user,service.instance.id=user
+        - name: OTEL_LOGS_EXPORTER
+          value: otlp
+        - name: OTEL_METRIC_EXPORT_INTERVAL
+          value: '500'
+        - name: OTEL_BSP_SCHEDULE_DELAY
+          value: '500'
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-grafana
+  template:
+    metadata:
+      labels:
+        app: my-grafana
+    spec:
+      containers:
+      - name: grafana
+        image: my-grafana-lgtm:0.0.1
+        ports:
+        - containerPort: 3000
+        - containerPort: 4317
+        - containerPort: 4318

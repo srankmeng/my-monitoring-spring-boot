@@ -42,8 +42,6 @@ services:
     build:
       context: ./grafana
       dockerfile: Dockerfile
-    volumes:
-      - ./grafana-configuration/datasources/:/grafana-v11.0.0/conf/provisioning/datasources/
     ports:
       - '4317:4317'
       - '4318:4318' 
