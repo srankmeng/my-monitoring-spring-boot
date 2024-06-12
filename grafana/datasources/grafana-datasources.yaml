@@ -49,3 +49,8 @@ datasources:
           matcherRegex: '"traceid":"(\w+)"'
           url: '$${__value.raw}'
           datasourceUid: 'tempo'
+
+  - name: Prometheus-node
+    type: prometheus
+    uid: prometheus-node
+    url: http://prometheus-server

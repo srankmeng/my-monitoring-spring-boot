@@ -43,27 +43,6 @@ this url random 500 error time, you can view in logs dashboard
 make cluster
 ```
 
-### Start dashboard and service
-
-```sh
-cd k8s && kubectl apply -f .
-```
-
-Open <http://localhost:3000>
-
-username: `admin` \
-password: `admin`
-
----
-
-### Start api service
-
-Open <http://localhost:8080/api/v1/users> \
-this url random latency time, you can view in traces dashboard
-
-Open <http://localhost:8080/api/v1/users/1> \
-this url random 500 error time, you can view in logs dashboard
-
 ---
 
 ### Setup Prometheus(node exporters)
@@ -130,19 +109,28 @@ kubectl get pod -n monitoring
 
 ---
 
-### Add Cluster dashboard
+### Start dashboard and service
 
-Go to Grafana: <http://localhost:3000/>
+Change directory to `k8s`
 
-Add new datasource as `prometheus`
+```sh
+kubectl apply -f .
+```
 
-Prometheus server url: `http://prometheus-server.monitoring.svc.cluster.local`
+Open <http://localhost:3000>
 
-Then go to create new dashboard
+username: `admin` \
+password: `admin`
 
-**For cluster dashboard:** you can add from files in <https://github.com/dotdc/grafana-dashboards-kubernetes/tree/master/dashboards>
+---
 
-**For Postgres dashboard:** you can add id `9628`
+### Running api service
+
+Open <http://localhost:8080/api/v1/users> \
+this url random latency time, you can view in traces dashboard
+
+Open <http://localhost:8080/api/v1/users/1> \
+this url random 500 error time, you can view in logs dashboard
 
 ---
 
@@ -158,11 +146,21 @@ hey -c 20 -z 10s http://localhost:8080/api/v1/users/1
 
 ---
 
-### Delete cluster
+## Delete cluster
 
 ```sh
 make cluster_delete
 ```
+
+---
+
+Dashboard templates
+
+**k8s cluster dashboard:** <https://github.com/dotdc/grafana-dashboards-kubernetes/tree/master/dashboards>
+
+**postgres dashboard:** grafana dashboard id `9628`
+
+**spring boot dashboard:** grafana dashboard id `19004`
 
 ---
 

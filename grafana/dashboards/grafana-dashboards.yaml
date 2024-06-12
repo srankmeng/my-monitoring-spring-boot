@@ -16,13 +16,49 @@ providers:
     options:
       path: /otel-lgtm/grafana-dashboard-jvm-metrics.json
       foldersFromFilesStructure: false
-  - name: 'Tracing'
+  - name: 'loki-log'
     type: file
     options:
       path: /otel-lgtm/dashboard-template/loki-log.json
       foldersFromFilesStructure: false
-  - name: 'Logging'
+  - name: 'tempo-trace'
     type: file
     options:
       path: /otel-lgtm/dashboard-template/tempo-trace.json
+      foldersFromFilesStructure: false
+
+  - name: 'k8s-global'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/k8s-global.json
+      foldersFromFilesStructure: false
+
+  - name: 'k8s-namespace'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/k8s-namespace.json
+      foldersFromFilesStructure: false
+
+  - name: 'k8s-node'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/k8s-node.json
+      foldersFromFilesStructure: false
+
+  - name: 'k8s-pod'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/k8s-pod.json
+      foldersFromFilesStructure: false
+
+  - name: 'postgres'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/postgres.json
+      foldersFromFilesStructure: false
+
+  - name: 'spring-boot-3.x'
+    type: file
+    options:
+      path: /otel-lgtm/dashboard-template/spring-boot-3.x.json
       foldersFromFilesStructure: false
