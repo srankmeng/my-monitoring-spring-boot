@@ -134,7 +134,7 @@ this url random 500 error time, you can view in logs dashboard
 
 ---
 
-## Try to load test
+### Try to load test
 
 Install [hey](https://github.com/rakyll/hey)
 
@@ -146,7 +146,7 @@ hey -c 20 -z 10s http://localhost:8080/api/v1/users/1
 
 ---
 
-## Delete cluster
+### Delete cluster
 
 ```sh
 make cluster_delete
@@ -154,7 +154,7 @@ make cluster_delete
 
 ---
 
-Dashboard templates
+## Dashboard templates
 
 **k8s cluster dashboard:** <https://github.com/dotdc/grafana-dashboards-kubernetes/tree/master/dashboards>
 
@@ -164,7 +164,7 @@ Dashboard templates
 
 ---
 
-Reference
+## Reference
 
 - <https://opentelemetry.io/docs/zero-code/java/agent/>
 - <https://github.com/grafana/intro-to-mltp/blob/main/docker-compose-otel.yml>
