@@ -14,13 +14,14 @@ opentelemetry-collector:
     processors:
       batch: {}
     exporters:
-      loki:
-        endpoint: http://loki:3100/loki/api/v1/push
+      otlphttp/logs:
+        endpoint: http://loki:3100/otlp
     service:
       pipelines:
         logs:
           receivers: [otlp]
           processors: [batch]
-          exporters: [loki]
+          exporters: [otlphttp/logs]
+      
           
           

@@ -1,7 +1,16 @@
 loki:
   deploymentMode: SingleBinary
+  lokiCanary:
+    enabled: false
+  test:
+    enabled: false
+  chunksCache:
+    enabled: false
   loki:
     auth_enabled: false
+    image: 
+      repository: grafana/loki
+      tag: 3.0.0
     commonConfig:
       replication_factor: 1
     storage:
