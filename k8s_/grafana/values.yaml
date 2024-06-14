@@ -1,0 +1,7 @@
+grafana:
+  adminUser: admin
+  adminPassword: admin
+  ingress:
+    enabled: true
+    hosts:
+      - grafana.example.com

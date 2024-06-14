@@ -1,0 +1,89 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: user-deployment
+  labels:
+    app: user-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-user
+  template:
+    metadata:
+      labels:
+        app: my-user
+    spec:
+      containers:
+      - name: my-user
+        image: my-user:0.0.1
+        env:
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:postgresql://db-service:5432/user
+        - name: SPRING_DATASOURCE_USERNAME
+          value: postgres
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: postgres
+        - name: OTEL_SERVICE_NAME
+          value: user
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: http://otel-collector-opentelemetry-collector.monitoring.svc.cluster.local:4317
+        - name: OTEL_EXPORTER_OTLP_PROTOCOL
+          value: grpc
+        - name: OTEL_RESOURCE_ATTRIBUTES
+          value: service.name=user,service.instance.id=user
+        - name: OTEL_METRICS_EXPORTER
+          value: none
+        - name: OTEL_TRACES_EXPORTER
+          value: otlp
+        - name: OTEL_LOGS_EXPORTER
+          value: otlp
+        - name: OTEL_METRIC_EXPORT_INTERVAL
+          value: '500'
+        - name: OTEL_BSP_SCHEDULE_DELAY
+          value: '500'
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            cpu: 200m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-deployment
+  labels:
+    app: db-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-db
+  template:
+    metadata:
+      labels:
+        app: my-db
+    spec:
+      containers:
+      - name: database
+        image: my-db:0.0.1
+        env:
+        - name: POSTGRES_DB
+          value: user
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_PASSWORD
+          value: postgres
+        ports:
+        - containerPort: 5432
+        resources:
+          requests:
+            cpu: 500m
+            memory: 1024Mi
+          limits:
+            cpu: "1"
+            memory: 2048Mi

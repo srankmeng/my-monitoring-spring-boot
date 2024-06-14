@@ -1,0 +1,26 @@
+== LOKI
+helm dependency update
+
+helm upgrade -i loki . -n monitoring --create-namespace
+
+== GRAFANA
+helm dependency update
+
+helm upgrade -i grafana . -n monitoring --create-namespace
+
+kubectl get secret grafana -n monitoring -o jsonpath="{.data.admin-password}" | base64 -d ; echo
+
+
+== OTEL COLLECTOR
+
+helm repo add opentelemetry-helm https://open-telemetry.github.io/opentelemetry-helm-charts
+
+helm dependency update
+
+helm upgrade -i otel-collector . -n monitoring --create-namespace
+
+=== KUBE Config
+
+
+kubectl --kubeconfig kubeconfig get pod
+

@@ -11,7 +11,7 @@ user_api_docker:
 	docker compose up user_api --build
 
 cluster:
-	k3d cluster create my-cluster --servers 1 --agents 2 --port "3000:3000@loadbalancer" --port "8080:8080@loadbalancer"
+	k3d cluster create my-cluster --servers 1 --agents 2 --port "3000:3000@loadbalancer" --port "8080:8080@loadbalancer" --port "8888:80@loadbalancer"
 	docker build -t my-db:0.0.1 -f ./database/user/Dockerfile ./database/user
 	docker build -t my-user:0.0.1 -f ./user/Dockerfile ./user
 	docker build -t my-grafana-lgtm:0.0.1 -f ./grafana/Dockerfile ./grafana

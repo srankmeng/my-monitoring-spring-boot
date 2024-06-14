@@ -1,0 +1,26 @@
+opentelemetry-collector:
+  mode: deployment
+  image:
+    repository: "otel/opentelemetry-collector-contrib"
+    tag: "0.102.1"
+  config:
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint:
+          http: 
+            endpoint:
+    processors:
+      batch: {}
+    exporters:
+      loki:
+        endpoint: http://loki:3100/loki/api/v1/push
+    service:
+      pipelines:
+        logs:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [loki]
+          
+          
