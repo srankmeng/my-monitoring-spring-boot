@@ -14,10 +14,16 @@ opentelemetry-collector:
     processors:
       batch: {}
     exporters:
+      otlphttp/traces:
+        endpoint: http://tempo:4318
       otlphttp/logs:
         endpoint: http://loki:3100/otlp
     service:
       pipelines:
+        traces:
+          receivers: [otlp]
+          processors: [batch]
+          exporters: [otlphttp/traces]
         logs:
           receivers: [otlp]
           processors: [batch]

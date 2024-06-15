@@ -1,0 +1,4 @@
+tempo:
+  tempo:
+    repository: grafana/tempo
+    tag: "2.5.0"

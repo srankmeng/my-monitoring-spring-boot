@@ -1,0 +1,12 @@
+apiVersion: v2
+name: my-tempo-helm
+description: A Helm chart for tempo Demo
+type: application
+version: 1.0.0
+
+dependencies:
+  - name: "tempo"
+    alias: tempo
+    condition: tempo.enabled
+    repository: "https://grafana.github.io/helm-charts"
+    version: "1.9.0"
