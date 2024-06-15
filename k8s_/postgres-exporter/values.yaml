@@ -1,0 +1,8 @@
+prometheus-postgres-exporter:
+  config:
+    datasource:
+      host: db-service.default.svc.cluster.local
+      port: "5432"
+      database: user
+      user: postgres
+      password: postgres

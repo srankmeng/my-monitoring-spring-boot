@@ -1,0 +1,16 @@
+prometheus:
+  extraScrapeConfigs: |
+    - job_name: 'postgres_exporter'
+      metrics_path: '/metrics'
+      scrape_interval: 3s # This can be adjusted based on our needs
+      static_configs:
+        - targets: ['postgres-exporter-prometheus-postgres-exporter']
+          labels:
+            application: 'postgres'
+    - job_name: 'user_application'
+      metrics_path: '/actuator/prometheus'
+      scrape_interval: 3s # This can be adjusted based on our needs
+      static_configs:
+        - targets: ['user-service.default.svc.cluster.local:8080']
+          labels:
+            application: 'user_api'
