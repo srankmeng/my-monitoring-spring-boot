@@ -14,10 +14,9 @@ opentelemetry-collector:
       prometheus/collector:
         config:
           scrape_configs:
-            # - job_name: 'opentelemetry-collector'
-            #   static_configs:
-            #     - targets: ['localhost:8888']
-
+            - job_name: 'opentelemetry-collector'
+              static_configs:
+                - targets: ['prometheus-server:8888']
 
             - job_name: 'postgres_exporter'
               metrics_path: '/metrics'
@@ -26,6 +25,7 @@ opentelemetry-collector:
                 - targets: ['postgres-exporter-prometheus-postgres-exporter']
                   labels:
                     application: 'postgres'
+
             - job_name: 'user_application'
               metrics_path: '/actuator/prometheus'
               scrape_interval: 3s # This can be adjusted based on our needs
@@ -33,15 +33,13 @@ opentelemetry-collector:
                 - targets: ['user-service.default.svc.cluster.local:8080']
                   labels:
                     application: 'user_api'
-
-
     processors:
       batch: {}
     exporters:
       otlphttp/metrics:
         endpoint: http://prometheus-server/api/v1/otlp
-      # prometheusremotewrite:
-      #   endpoint: http://prometheus-server/api/v1/write
+      prometheusremotewrite:
+        endpoint: http://prometheus-server/api/v1/write
       otlphttp/traces:
         endpoint: http://tempo:4318
       otlphttp/logs:
@@ -51,7 +49,7 @@ opentelemetry-collector:
     service:
       pipelines:
         metrics:
-          receivers: [otlp,prometheus/collector]
+          receivers: [otlp, prometheus/collector]
           processors: [batch]
           exporters: [otlphttp/metrics]
           # exporters: [prometheusremotewrite]
